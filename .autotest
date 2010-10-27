@@ -1,0 +1,17 @@
+require 'autotest/growl'
+
+unless ENV["RSPEC"]
+	PLATFORM = RUBY_PLATFORM unless defined? PLATFORM
+	require "redgreen/autotest"
+end
+Autotest.add_hook :initialize do |autotest|
+	autotest.add_mapping(/^spec\/requests\/.*_spec\.rb$/) do
+		autotest.files_matching(/^spec\/requests\/.*_spec\.rb$/)
+	end
+end
+
+Autotest.add_hook :initialize do |autotest|
+%w{.git .bundle .svn .hg .DS_Store ._* vendor}.each {|exception| autotest.add_exception(exception) }
+false
+end
+
